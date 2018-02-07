@@ -3,11 +3,13 @@ import { bake_cookie, read_cookie } from 'sfcookies';
 
 
 const reminder = (action) => {
-    let { text, dueDate } = action;
+    let { text, dueDate, taskTime, ranking } = action;
     return {
         id: Math.random(),
         text,
-        dueDate
+        dueDate,
+        ranking,
+        taskTime
     }
 }
 

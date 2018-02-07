@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addReminder, deleteReminder, clearReminders } from '../actions';
 import moment from 'moment';
+//import validator from 'validator';
 
 
 class App extends Component {
@@ -9,13 +10,14 @@ class App extends Component {
     super(props);
     this.state = {
       text: '',
-      dueDate: ''
+      dueDate: '',
+      taskTime:'',
+      ranking: ''  
     }
   }
 
   addReminder(){
-    console.log('this.state.dueDate', this.state.dueDate);
-    this.props.addReminder(this.state.text, this.state.dueDate);
+    this.props.addReminder(this.state.text, this.state.dueDate, this.state.taskTime, this.state.ranking);
   }
 
   deleteReminder(id) {
@@ -31,8 +33,10 @@ class App extends Component {
           return(
             <li key={reminder.id} className="list-group-item">
               <div className="list-item">
-                <div>{reminder.text}</div> {/* LIST ITEMS */}
-                <div><em>{moment (new Date (reminder.dueDate)).fromNow()}</em></div>
+                <div>TASK: {reminder.text}</div> {/* LIST ITEMS */}
+                <div>DATE: <em>{moment (new Date (reminder.dueDate)).fromNow()}</em></div>
+                <div> TIME: {reminder.taskTime}</div> 
+                <div> IMPORTANCE LEVEL: {reminder.ranking}</div> 
               </div> 
               <div 
                 className="list-item delete-button"
@@ -51,26 +55,41 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="title">
+        <div className="title text-danger">
           Reminder Pro 
         </div>
+    
+      
+    
         <div className="form-inline reminder-form">
           <div className="form-group">
-            <input className="form-control" placeholder="I have to.."
+            <input className="form-control" placeholder="I have to.." 
             onChange={event => this.setState({text: event.target.value})}
              />
              <input 
                className="form-control"
-               type="datetime-local"
-               onChange={event => this.setState({ dueDate: event.target.value})}
+               type="date"
+               onChange={event => this.setState({ dueDate: event.target.value})} 
+               />
+               <input 
+               className="form-control"
+               type="time"
+               onChange={event => this.setState({ taskTime: event.target.value})}
+               />
+               <input className="form-control" 
+               type="number" name="quantity" min="1" max="10" placeholder="1-10" 
+               onChange={event => this.setState({ranking: event.target.value})}
                />
           </div>
-          <button type="button" className="btn btn-success"
-          onClick={() => this.addReminder()}
+        </div>
+        <button type="button" className="btn btn-success"
+          onClick={() => this.addReminder(
+            
+          )}
           >
             Add Reminder 
           </button>
-        </div>
+        <h1 className="title"> TASKS TO BE COMPLETED </h1>
         { this.renderReminders () } {/* PLACEMENT OF LIST ITEMS */}
         <div 
           className="btn btn-danger"
@@ -78,10 +97,20 @@ class App extends Component {
         >
          Clear Reminders 
         </div>
+        
       </div>
+
+      
     );
   }
 }
+
+
+
+
+
+
+
 
 function mapStateToProps(state) {
   return {

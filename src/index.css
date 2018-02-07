@@ -1,5 +1,5 @@
 body {
-  background-color: blue;
+  background-color: rgb(28, 28, 29);
 }
 
 .App {
@@ -12,6 +12,7 @@ body {
 .title {
   text-align:center;
   font-size:26px; 
+  color:white;
 }
 
 input {
@@ -24,6 +25,10 @@ input {
 
 .list-item {
   display: inline-block;
+}
+
+.list-group-item {
+  margin: 5px;
 }
 
 .delete-button {
